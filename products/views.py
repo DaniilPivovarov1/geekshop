@@ -1,4 +1,5 @@
 from django.shortcuts import render
+import datetime
 
 
 # Create your views here.
@@ -52,3 +53,10 @@ def products(request):
         ]
     }
     return render(request, 'products/products.html', context)
+
+
+def cap_and_date_now(request):
+    context = {
+        'date': datetime.date.today()
+    }
+    return render(request, 'products/cap_and_date_now.html', context)
