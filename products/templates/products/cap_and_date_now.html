@@ -6,7 +6,7 @@
 </head>
 <body>
     <h1>Текущая дата:</h1>
-    {{ date }}
+    {% now 'd.m.Y' %}
     <h1>{{ 'django is good'|capfirst }}</h1>
 </body>
 </html>
