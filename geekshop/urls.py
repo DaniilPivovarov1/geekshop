@@ -16,10 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-from products.views import index, products
+from products.views import index, products, cap_and_date_now
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index, name='index'),
-    path('products/', products, name='products')
+    path('products/', products, name='products'),
+    path('placeholders_test', cap_and_date_now, name='placeholders_test')
 ]
