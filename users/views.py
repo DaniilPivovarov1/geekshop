@@ -53,4 +53,6 @@ def profile(request):
     else:
         form = UserProfileForm(instance=user)
     context = {'title': 'GeekShop - Профиль', 'form': form, 'baskets': Basket.objects.filter(user=user)}
+    if context['baskets']:
+        context.update({'some_basket': Basket.objects.filter(user=user)[0]})
     return render(request, 'users/profile.html', context)
