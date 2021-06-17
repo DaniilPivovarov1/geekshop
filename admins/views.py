@@ -51,5 +51,14 @@ def admin_users_update(request, id):
 @user_passes_test(lambda u: u.is_staff or u.is_superuser)
 def admin_users_delete(request, id):
     user = User.objects.get(id=id)
-    user.delete()
+    user.is_active = False
+    user.save()
+    return HttpResponseRedirect(reverse('admins:admin_users'))
+
+
+@user_passes_test(lambda u: u.is_staff or u.is_superuser)
+def admin_users_return(request, id):
+    user = User.objects.get(id=id)
+    user.is_active = True
+    user.save()
     return HttpResponseRedirect(reverse('admins:admin_users'))
