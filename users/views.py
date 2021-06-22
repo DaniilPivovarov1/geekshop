@@ -1,9 +1,11 @@
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import auth, messages
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import CreateView
 
 from users.forms import UserLoginForm, UserRegisterForm, UserProfileForm
+from users.models import User
 from baskets.models import Basket
 
 
@@ -24,17 +26,16 @@ def login(request):
     return render(request, 'users/login.html', context)
 
 
-def register(request):
-    if request.method == 'POST':
-        form = UserRegisterForm(data=request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Вы успешно зарегистрировались!')
-            return HttpResponseRedirect(reverse('users:login'))
-    else:
-        form = UserRegisterForm()
-    context = {'title': 'GeekShop - Регистрация', 'form': form}
-    return render(request, 'users/register.html', context)
+class UserCreateView(CreateView):
+    model = User
+    template_name = 'users/register.html'
+    form_class = UserRegisterForm
+    success_url = reverse_lazy('users:login')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(UserCreateView, self).get_context_data(**kwargs)
+        context['title'] = 'GeekShop - Регистрация'
+        return context
 
 
 def logout(request):
